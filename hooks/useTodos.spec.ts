@@ -48,5 +48,21 @@ describe('useTodos()', () => {
         expect(todos.result.current.items.length).toEqual(1);
 
         expect(todos.result.current.items[0].id).toEqual(1);
+    });
+
+    it('Should allow you to update a todo', () => {
+        const todos = renderTodosHook();
+
+        act(() => {
+            todos.result.current.addTodo();
+
+            todos.result.current.addTodo();
+        })
+
+        act(() => {
+            todos.result.current.updateTodo({ id: 0, name: 'Edited', completed: true });
+        })
+
+        expect(todos.result.current.items[0]).toStrictEqual({ id: 0, name: 'Edited', completed: true });
     })
 })

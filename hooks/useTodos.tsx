@@ -54,9 +54,22 @@ export default function useTodos() {
         context.setTodos((todos) => todos.filter(item => item.id !== id));
     }
 
+    const updateTodo = (todo: TodoItem) => {
+        context.setTodos((todos) => {
+            const newTodos = [...todos];
+            const index = newTodos.findIndex((item) => item.id === todo.id);
+            if(index === -1) {
+                return todos;
+            }
+            newTodos[index] = todo;
+            return newTodos;
+        })
+    }
+
     return {
         addTodo,
         removeTodoByID,
+        updateTodo,
         items: context.todos
     }
 }
