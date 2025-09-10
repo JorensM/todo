@@ -1,8 +1,8 @@
-# Welcome to your Expo app 👋
+# Todo list app exercise
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a basic todo list app to demonstrate my skills with React and React Native
 
-## Get started
+## Setup
 
 1. Install dependencies
 

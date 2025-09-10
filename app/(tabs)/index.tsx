@@ -1,57 +1,43 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import FAB from '@/components/FAB';
+import { HeaderTitle, Header } from '@react-navigation/elements';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import Octicons from '@expo/vector-icons/Octicons';
+import styled from 'styled-components/native';
+import TodoList from '@/components/TodoList';
+import { TodoItem } from '@/types/TodoItem';
+import useTodos, { TodosProvider } from '@/hooks/useTodos';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const Main = styled.View`
+  height: 100%;
+`
+
+const Content = styled.View`
+  padding: 16px;
+`
+
+const testData: TodoItem[] = [{
+  id: 0,
+  name: 'New todo',
+  completed: false
+}]
 
 export default function HomeScreen() {
+
+  const todos = useTodos();
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Tryyy it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <Main>
+        <Header
+          title='Todo'
+        >
+        </Header>
+        <Content>
+          <TodoList
+            items={todos.items}
+          />
+        </Content>
+        <FAB onPress={() => todos.addTodo()}><Octicons name='plus' size={24} /></FAB>
+    </Main>
   );
 }
 
