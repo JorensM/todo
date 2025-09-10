@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native';
+import { FlatList, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
 import EditableText from './EditableText';
 import Checkbox from 'expo-checkbox';
 import { TodoItem } from '@/types/TodoItem';
@@ -65,14 +65,12 @@ type TodoListProps = {
 
 export default function TodoList( props: TodoListProps ) {
     return (
-        <ScrollView>
-            <FlatList
-                ItemSeparatorComponent={() => <ListSeparator/>}
-                data={props.items}
-                renderItem={(info) => <TodoListItem data={info.item} onChange={props.onItemChange} onDelete={() => props.onItemDelete(info.item.id)}/>}
-            />
-        </ScrollView>
-
+        <FlatList
+            style={{height: 'calc(100vh - 64px)'}}
+            ItemSeparatorComponent={() => <ListSeparator/>}
+            data={props.items}
+            renderItem={(info) => <TodoListItem data={info.item} onChange={props.onItemChange} onDelete={() => props.onItemDelete(info.item.id)}/>}
+        />
     )
     
 }

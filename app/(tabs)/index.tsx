@@ -1,6 +1,6 @@
 import FAB from '@/components/FAB';
 import { HeaderTitle, Header } from '@react-navigation/elements';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, SafeAreaView } from 'react-native';
 import Octicons from '@expo/vector-icons/Octicons';
 import styled from 'styled-components/native';
 import TodoList from '@/components/TodoList';
@@ -27,9 +27,11 @@ export default function HomeScreen() {
   const todos = useTodos();
 
   return (
+    // <SafeAreaView>
     <Main>
         <Header
           title='Todo List'
+          headerStyle={{height: 64}}
         >
         </Header>
         <Content>
@@ -41,6 +43,7 @@ export default function HomeScreen() {
         </Content>
         <FAB onPress={() => todos.addTodo()}><Octicons name='plus' size={24} /></FAB>
     </Main>
+    // </SafeAreaView>
   );
 }
 
