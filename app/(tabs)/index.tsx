@@ -13,8 +13,7 @@ const Main = styled.View`
 
 const Content = styled.View`
   padding: 16px;
-  max-height: 100vh;
-  flex-grow: 1;
+  flex: 1;
 `
 
 const testData: TodoItem[] = [{
@@ -36,6 +35,8 @@ export default function HomeScreen() {
         <Content>
           <TodoList
             items={todos.items}
+            onItemChange={todos.updateTodo}
+            onItemDelete={todos.removeTodoByID}
           />
         </Content>
         <FAB onPress={() => todos.addTodo()}><Octicons name='plus' size={24} /></FAB>

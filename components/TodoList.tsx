@@ -52,14 +52,16 @@ export const TodoListItem = (props: TodoListItemProps) => {
     )
 }
 
-type TodoListProps = {
-    onItemChange: (newItem: TodoItem) => void
-    items: TodoItem[]
-}
 
 const ListSeparator = styled.View`
-    height: 16px;
+height: 16px;
 `
+
+type TodoListProps = {
+    onItemChange: (newItem: TodoItem) => void,
+    onItemDelete: (id: number) => void,
+    items: TodoItem[]
+}
 
 export default function TodoList( props: TodoListProps ) {
     return (
@@ -67,7 +69,7 @@ export default function TodoList( props: TodoListProps ) {
             <FlatList
                 ItemSeparatorComponent={() => <ListSeparator/>}
                 data={props.items}
-                renderItem={(info) => <TodoListItem data={info.item} onChange={props.onItemChange}/>}
+                renderItem={(info) => <TodoListItem data={info.item} onChange={props.onItemChange} onDelete={() => props.onItemDelete(info.item.id)}/>}
             />
         </ScrollView>
 
