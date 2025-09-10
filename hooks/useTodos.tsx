@@ -3,7 +3,7 @@ import { TodoItem } from '@/types/TodoItem';
 
 const TodosContext = createContext<{
     todos: TodoItem[],
-    setTodos: (newTodos: TodoItem[]) => void
+    setTodos: (newTodos: TodoItem[] | ((prevTodos: TodoItem[]) => TodoItem[])) => void
 }>();
 
 const todoStorage = {
@@ -23,11 +23,13 @@ export const TodosProvider = ( props: PropsWithChildren ) => {
     );
 }
 
-const getMaxID = (items: { id: number }) => {
+export const getMaxID = (items: { id: number }) => {
     if(!items.length) {
         return 0;
     }
-    return Math.max(items.map(item => item.id)) + 1;
+
+    const IDs = items.map(item => item.id);
+    return Math.max(...IDs) + 1;
 }
 
 const genDefaultTodo = (items) => ({
@@ -45,11 +47,16 @@ export default function useTodos() {
     const context = useContext(TodosContext);
 
     const addTodo = () => {
-        context.setTodos((todos) => [...todos, genDefaultTodo(context.todos)]);
+        context.setTodos((todos) => [...todos, genDefaultTodo(todos)]);
+    }
+
+    const removeTodoByID = (id: number) => {
+        context.setTodos((todos) => todos.filter(item => item.id !== id));
     }
 
     return {
         addTodo,
+        removeTodoByID,
         items: context.todos
     }
 }
