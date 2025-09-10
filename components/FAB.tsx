@@ -1,4 +1,4 @@
-import { TouchableOpacity } from 'react-native';
+// Core
 import styled from 'styled-components/native';
 
 const Button = styled.TouchableOpacity`

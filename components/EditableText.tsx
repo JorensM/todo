@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Text, TextInput, TouchableOpacity } from 'react-native';
+import { TextInput, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 
 const TextPlain = styled.Text`
@@ -63,7 +63,7 @@ export default function EditableText( { autoUpdateText = false, ...props }: Edit
             testID='edit'
         /> : (
         <TouchableOpacity
-            onPress={() => setIsEditing(true)}
+            onPress={handleTextPlainPress}
         >
             <TextPlain>
                 {autoUpdateText ? localText : props.text}

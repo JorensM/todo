@@ -1,11 +1,14 @@
-import FAB from '@/components/FAB';
-import { HeaderTitle, Header } from '@react-navigation/elements';
-import { StyleSheet, TouchableOpacity, View, SafeAreaView } from 'react-native';
+// Core
+import { Header } from '@react-navigation/elements';
 import Octicons from '@expo/vector-icons/Octicons';
 import styled from 'styled-components/native';
+
+// Components
+import FAB from '@/components/FAB';
 import TodoList from '@/components/TodoList';
-import { TodoItem } from '@/types/TodoItem';
-import useTodos, { TodosProvider } from '@/hooks/useTodos';
+
+// Hooks
+import useTodos from '@/hooks/useTodos';
 
 const Main = styled.View`
   height: 100%;
@@ -16,11 +19,6 @@ const Content = styled.View`
   flex: 1;
 `
 
-const testData: TodoItem[] = [{
-  id: 0,
-  name: 'New todo',
-  completed: false
-}]
 
 export default function HomeScreen() {
 
@@ -46,22 +44,3 @@ export default function HomeScreen() {
     // </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});

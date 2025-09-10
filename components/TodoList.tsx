@@ -1,9 +1,14 @@
-import { FlatList, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
-import EditableText from './EditableText';
+// Core
+import { FlatList } from 'react-native';
 import Checkbox from 'expo-checkbox';
-import { TodoItem } from '@/types/TodoItem';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import styled from 'styled-components/native';
+
+// Components
+import EditableText from './EditableText';
+
+// Types
+import { TodoItem } from '@/types/TodoItem';
 
 type TodoListItemProps = {
     onChange: (newItem: TodoItem) => void,
@@ -24,8 +29,6 @@ const RemoveButton = styled.TouchableOpacity`
 `;
 
 export const TodoListItem = (props: TodoListItemProps) => {
-    // key = id
-
     const onChange = (data) => {
         if(props.onChange) {
             props.onChange(data)

@@ -1,7 +1,6 @@
-import { Children, createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { TodoItem } from '@/types/TodoItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Platform } from 'react-native';
 
 const TodosContext = createContext<{
     todos: TodoItem[],

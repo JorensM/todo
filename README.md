@@ -1,6 +1,12 @@
 # Todo list app exercise
 
-This is a basic todo list app to demonstrate my skills with React and React Native
+This is a basic todo list app to demonstrate my skills with React and React Native.
+
+## Features
+
+* Create, edit and remove todo items
+* Search and filtering functionality
+* Data persists between app reloads
 
 ## Setup
 
