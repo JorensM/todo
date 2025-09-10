@@ -45,7 +45,7 @@ export default function useTodos() {
     const context = useContext(TodosContext);
 
     const addTodo = () => {
-        context.setTodos([...context.todos, genDefaultTodo(context.todos)]);
+        context.setTodos((todos) => [...todos, genDefaultTodo(context.todos)]);
     }
 
     return {

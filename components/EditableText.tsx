@@ -2,11 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { Text, TextInput, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 
-type EditableTextProps = {
-    text: string,
-    onChange: (newText: string) => void
-}
-
 const TextPlain = styled.Text`
     color: white;
     font-size: 24px;
@@ -18,8 +13,14 @@ const TextEditing = styled.TextInput`
     padding: 4px;
 `
 
+type EditableTextProps = {
+    text: string,
+    onChange: (newText: string) => void,
+    autoUpdateText?: boolean
+}
+
 // A text component that can be edited when tapped/clicked
-export default function EditableText( props: EditableTextProps ) {
+export default function EditableText( { autoUpdateText = false, ...props }: EditableTextProps ) {
 
     
     /**
@@ -38,25 +39,34 @@ export default function EditableText( props: EditableTextProps ) {
         setIsEditing(true);
     }
 
+    const handleDoneEditing = () => {
+        setIsEditing(false);
+        if(props.onChange) {
+            props.onChange(localText);
+        }
+    }
+
     useEffect(() => {
         if(isEditing) {
             textEditingRef.current.focus();
         }
-    }, [isEditing])
+    }, [isEditing]);
+    
 
     return isEditing ? 
         <TextEditing
             value={localText} 
             onChangeText={setLocalText}
-            onBlur={() => setIsEditing(false)}
+            onBlur={handleDoneEditing}
             ref={textEditingRef}
             autoFocus={true}
+            testID='edit'
         /> : (
         <TouchableOpacity
             onPress={() => setIsEditing(true)}
         >
             <TextPlain>
-                {props.text}
+                {autoUpdateText ? localText : props.text}
             </TextPlain>
         </TouchableOpacity>
     )
