@@ -1,6 +1,12 @@
+// Core
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
-import { TodoItem } from '@/types/TodoItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Types
+import { TodoItem } from '@/types/TodoItem';
+
+// Constants
+import defaults from '@/constants/defaults';
 
 /**
  * A hook and utility functions for managing todos
@@ -9,7 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 /**
  * Context used to keep track of todos within the app
  */
-const TodosContext = createContext<{
+export const TodosContext = createContext<{
     todos: TodoItem[],
     setTodos: (newTodos: TodoItem[] | ((prevTodos: TodoItem[]) => TodoItem[])) => void
 }>();
@@ -54,7 +60,10 @@ export const TodosProvider = ( props: PropsWithChildren ) => {
      */
     const init = async () => {
         const initialTodos = await todoStorage.getAll();
-        setTodos(initialTodos);
+        if(!initialTodos.length) {
+            console.log('Using default todos: ', defaults.defaultTodos);
+        }
+        setTodos(initialTodos.length ? initialTodos : defaults.defaultTodos);
     }
 
     useEffect(() => {
