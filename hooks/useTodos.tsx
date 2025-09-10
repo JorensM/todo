@@ -2,30 +2,56 @@ import { createContext, PropsWithChildren, useContext, useEffect, useState } fro
 import { TodoItem } from '@/types/TodoItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+/**
+ * A hook and utility functions for managing todos
+ */
+
+/**
+ * Context used to keep track of todos within the app
+ */
 const TodosContext = createContext<{
     todos: TodoItem[],
     setTodos: (newTodos: TodoItem[] | ((prevTodos: TodoItem[]) => TodoItem[])) => void
 }>();
 
+/**
+ * Key used to identify todo items in local storage
+ */
 const storageKey = 'todo-app:todos';
 
+/**
+ * Simple wrapper for local storage to get/set todos
+ */
 const todoStorage = {
+    /**
+     * Retrieve all todos from local storage
+     */
     getAll: async () => {
         const str = await AsyncStorage.getItem(storageKey);
         const items = ( str === '{}' || !str ) ? [] : JSON.parse(str);
         return items;
     },
+    /**
+     * Set all todos in local storage
+     * @param items 
+     */
     setAll: async (items: TodoItem[]) => {
-        // if(Platform.OS === 'web' && window === undefined) return;
         const str = JSON.stringify(items);
         await AsyncStorage.setItem(storageKey, str);
     }
 }
 
+/**
+ * Basic wrapper around TodosContext. Initializes state
+ */
 export const TodosProvider = ( props: PropsWithChildren ) => {
 
     const [todos, setTodos] = useState([]);
 
+    /**
+     * Called on mount.
+     * Retrieves todos from local storage
+     */
     const init = async () => {
         const initialTodos = await todoStorage.getAll();
         setTodos(initialTodos);
@@ -42,15 +68,20 @@ export const TodosProvider = ( props: PropsWithChildren ) => {
     );
 }
 
+/**
+ * Get a non-clashing ID
+ */
 export const getMaxID = (items: { id: number }) => {
     if(!items.length) {
         return 0;
     }
-
     const IDs = items.map(item => item.id);
     return Math.max(...IDs) + 1;
 }
 
+/**
+ * Generate a default todo item object
+ */
 const genDefaultTodo = (items) => ({
     id: getMaxID(items),
     name: 'New Todo',
@@ -65,11 +96,17 @@ const genDefaultTodo = (items) => ({
 export default function useTodos() {
     const context = useContext(TodosContext);
 
-
+    /**
+     * Called when the todos state changes.
+     * Updates todos in local storage
+     */
     const onTodosChange = (newTodos: TodoItem[]) => {
         todoStorage.setAll(newTodos);
     }
 
+    /**
+     * Add a new todo
+     */
     const addTodo = () => {
         context.setTodos((todos) => {
             const newTodos = [...todos, genDefaultTodo(todos)];
@@ -78,6 +115,9 @@ export default function useTodos() {
         });
     }
 
+    /**
+     * Remove a todo by ID
+     */
     const removeTodoByID = (id: number) => {
         context.setTodos((todos) => {
             const newTodos = todos.filter(item => item.id !== id);
@@ -86,6 +126,9 @@ export default function useTodos() {
         });
     }
 
+    /**
+     * Update a todo
+     */
     const updateTodo = (todo: TodoItem) => {
         context.setTodos((todos) => {
             const newTodos = [...todos];

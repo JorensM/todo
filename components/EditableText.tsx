@@ -14,12 +14,14 @@ const TextEditing = styled.TextInput`
 `
 
 type EditableTextProps = {
-    text: string,
-    onChange: (newText: string) => void,
-    autoUpdateText?: boolean
+    text: string, // Text to display
+    onChange: (newText: string) => void, // Called after text has been edited
+    autoUpdateText?: boolean // Whether to automatically update the plain text after editing or let the parent handle it
 }
 
-// A text component that can be edited when tapped/clicked
+/** 
+ * A text component that can be edited when tapped/clicked
+ */
 export default function EditableText( { autoUpdateText = false, ...props }: EditableTextProps ) {
 
     
@@ -28,6 +30,9 @@ export default function EditableText( { autoUpdateText = false, ...props }: Edit
      */
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
+    /**
+     * Text input ref, needed to focus on the input element once edit mode is enabled
+     */
     const textEditingRef = useRef<TextInput>();
 
     /**
@@ -35,40 +40,51 @@ export default function EditableText( { autoUpdateText = false, ...props }: Edit
      */
     const [localText, setLocalText] = useState<string>(props.text);
 
+    /**
+     * Called when the text is pressed while not in edit mode
+     */
     const handleTextPlainPress = () => {
+        // Enable edit mode
         setIsEditing(true);
     }
 
+    /**
+     * Called after text is done being edited
+     */
     const handleDoneEditing = () => {
+        // Disable edit mode
         setIsEditing(false);
+
         if(props.onChange) {
+            // Call onChange with new text
             props.onChange(localText);
         }
     }
 
     useEffect(() => {
+        // Called when editing has started
         if(isEditing) {
+            // Focus on the text input element
             textEditingRef.current.focus();
         }
     }, [isEditing]);
     
 
-    return isEditing ? 
+    return isEditing ? // Display text input when in edit mode 
         <TextEditing
             value={localText} 
             onChangeText={setLocalText}
-            onBlur={handleDoneEditing}
+            onBlur={handleDoneEditing} // Disabled edit mode and sends an onChange event
             ref={textEditingRef}
             autoFocus={true}
             testID='edit'
-        /> : (
+        /> : ( // Otherwise display plain text
         <TouchableOpacity
-            onPress={handleTextPlainPress}
+            onPress={handleTextPlainPress} // Enables edit mode
         >
             <TextPlain>
                 {autoUpdateText ? localText : props.text}
             </TextPlain>
         </TouchableOpacity>
     )
-
 }

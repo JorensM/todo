@@ -16,4 +16,7 @@ const Button = styled.TouchableOpacity`
 // Floating action button
 const FAB = Button;
 
+/**
+ * Styled floating action button
+ */
 export default FAB;

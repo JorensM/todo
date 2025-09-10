@@ -10,12 +10,9 @@ import EditableText from './EditableText';
 // Types
 import { TodoItem } from '@/types/TodoItem';
 
-type TodoListItemProps = {
-    onChange: (newItem: TodoItem) => void,
-    onDelete: () => void,
-    data: TodoItem,
-    autoUpdateText?: boolean
-}
+// Todo list and todo list item components
+
+
 
 const TodoListItemContainer = styled.View`
     width: 100%;
@@ -28,7 +25,23 @@ const RemoveButton = styled.TouchableOpacity`
     margin-left: auto;
 `;
 
+type TodoListItemProps = {
+    onChange: (newItem: TodoItem) => void, // Called when todo item has been updated
+    onDelete: () => void, // Called when a todo list item delete button has been pressed
+    data: TodoItem, // Item data
+    autoUpdateText?: boolean // Whether to auto update the text after editing (more info at EditableText.tsx)
+}
+
+/**
+ * Todo list item component.
+ * 
+ * Used in conjuction with <TodoList/> to render a todo list
+ */
 export const TodoListItem = (props: TodoListItemProps) => {
+
+    /**
+     * onChange wrapper, called when the todo item has been edited
+     */
     const onChange = (data) => {
         if(props.onChange) {
             props.onChange(data)
@@ -57,15 +70,20 @@ export const TodoListItem = (props: TodoListItemProps) => {
 
 
 const ListSeparator = styled.View`
-height: 16px;
+    height: 16px;
 `
 
 type TodoListProps = {
-    onItemChange: (newItem: TodoItem) => void,
-    onItemDelete: (id: number) => void,
-    items: TodoItem[]
+    onItemChange: (newItem: TodoItem) => void, // Called when a single item has been updated
+    onItemDelete: (id: number) => void, // Called when an item is requesting deletion
+    items: TodoItem[] // Items to display
 }
 
+/**
+ * Todo list component. Renders a list of <TodoListItem/> components
+ * @param props 
+ * @returns 
+ */
 export default function TodoList( props: TodoListProps ) {
     return (
         <FlatList
