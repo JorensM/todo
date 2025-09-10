@@ -13,6 +13,8 @@ const Main = styled.View`
 
 const Content = styled.View`
   padding: 16px;
+  max-height: 100vh;
+  flex-grow: 1;
 `
 
 const testData: TodoItem[] = [{
@@ -28,7 +30,7 @@ export default function HomeScreen() {
   return (
     <Main>
         <Header
-          title='Todo'
+          title='Todo List'
         >
         </Header>
         <Content>

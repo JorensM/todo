@@ -1,8 +1,9 @@
-import { FlatList, TouchableOpacity, View } from 'react-native';
+import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native';
 import EditableText from './EditableText';
 import Checkbox from 'expo-checkbox';
 import { TodoItem } from '@/types/TodoItem';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import styled from 'styled-components/native';
 
 type TodoListItemProps = {
     onChange: (newItem: TodoItem) => void,
@@ -10,6 +11,17 @@ type TodoListItemProps = {
     data: TodoItem,
     autoUpdateText?: boolean
 }
+
+const TodoListItemContainer = styled.View`
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+`;
+
+const RemoveButton = styled.TouchableOpacity`
+    margin-left: auto;
+`;
 
 export const TodoListItem = (props: TodoListItemProps) => {
     // key = id
@@ -20,7 +32,7 @@ export const TodoListItem = (props: TodoListItemProps) => {
         }
     }
 
-    return (<View key={props.data.id}>
+    return (<TodoListItemContainer key={props.data.id}>
         <Checkbox 
             value={props.data.completed}
             onValueChange={(completed) => onChange({...props.data, completed})}
@@ -30,13 +42,13 @@ export const TodoListItem = (props: TodoListItemProps) => {
             autoUpdateText={props.autoUpdateText} 
             onChange={(name) => onChange({...props.data, name})}
         />
-        <TouchableOpacity
+        <RemoveButton
             onPress={props.onDelete}
             testID='delete'
         >
             <MaterialIcons name='highlight-remove' color='red' size={24} />
-        </TouchableOpacity>
-    </View>
+        </RemoveButton>
+    </TodoListItemContainer>
     )
 }
 
@@ -45,10 +57,20 @@ type TodoListProps = {
     items: TodoItem[]
 }
 
+const ListSeparator = styled.View`
+    height: 16px;
+`
+
 export default function TodoList( props: TodoListProps ) {
-    console.log(props.items);
-    return <FlatList
-        data={props.items}
-        renderItem={(info) => <TodoListItem data={info.item} onChange={props.onItemChange} autoUpdateText={true}/>}
-    />
+    return (
+        <ScrollView>
+            <FlatList
+                ItemSeparatorComponent={() => <ListSeparator/>}
+                data={props.items}
+                renderItem={(info) => <TodoListItem data={info.item} onChange={props.onItemChange}/>}
+            />
+        </ScrollView>
+
+    )
+    
 }
