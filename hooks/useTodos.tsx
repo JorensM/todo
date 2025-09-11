@@ -60,9 +60,6 @@ export const TodosProvider = ( props: PropsWithChildren ) => {
      */
     const init = async () => {
         const initialTodos = await todoStorage.getAll();
-        if(!initialTodos.length) {
-            console.log('Using default todos: ', defaults.defaultTodos);
-        }
         setTodos(initialTodos.length ? initialTodos : defaults.defaultTodos);
     }
 
