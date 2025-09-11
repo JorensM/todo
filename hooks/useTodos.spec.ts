@@ -40,8 +40,6 @@ describe('useTodos()', () => {
         })
 
         act(() => {
-            console.log(todos.result.current.items);
-
             todos.result.current.removeTodoByID(0);
         })
 

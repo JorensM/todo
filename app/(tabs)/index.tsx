@@ -97,7 +97,6 @@ export default function HomeScreen() {
           }}
         >
           <ModalOverlay
-            ref={filterMenuRef}
             onPress={(e: NativeSyntheticEvent<TouchEvent>) => {
               setShowFilterMenu(false)
             }}
