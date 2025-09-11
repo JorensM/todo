@@ -1,5 +1,6 @@
 import styled from 'styled-components/native'
 
+// Styled search bar
 const Search = styled.TextInput`
     background-color: lightgray;
     border-radius: 16px;

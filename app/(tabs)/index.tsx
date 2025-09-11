@@ -53,16 +53,17 @@ const ModalMenu = styled.View`
 const ModalTitle = styled.Text`
   font-size: 20px;
 `
-
+// Main page
 export default function HomeScreen() {
 
+  // Hooks
   const todos = useTodos();
 
+  // Filters and search
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState<'all' | 'completed' | 'incompleted'>('all');
 
-  const filterMenuRef = useRef<TouchableOpacity>();
-
+  // Filter items by search and selected filters
   const filteredItems = useMemo(() => {
     console.log(searchValue);
     let filteredItems = todos.items.filter((item) => item.name.toLowerCase().includes(searchValue.toLowerCase()));
@@ -72,8 +73,12 @@ export default function HomeScreen() {
     return filteredItems;
   }, [searchValue, todos.items, filterValue]);
 
+  // Whether to show the filters menu
   const [showFilterMenu, setShowFilterMenu] = useState<boolean>(false);
 
+  /**
+   * Called when a filter gets selected
+   */
   const handleFilterChange = (id: string) => (checked: boolean) => {
     if(checked) {
       setFilterValue(id);
@@ -83,7 +88,6 @@ export default function HomeScreen() {
   }
 
   return (
-    // <SafeAreaView>
     <Main>
         <Modal
           visible={showFilterMenu}
@@ -96,10 +100,7 @@ export default function HomeScreen() {
           <ModalOverlay
             ref={filterMenuRef}
             onPress={(e: NativeSyntheticEvent<TouchEvent>) => {
-              // console.log(f)
-              // if(filterMenuRef.current === e.target) {
-                setShowFilterMenu(false)
-              // }
+              setShowFilterMenu(false)
             }}
           >
             <TouchableWithoutFeedback>
@@ -160,6 +161,5 @@ export default function HomeScreen() {
         </Content>
         <FAB onPress={() => todos.addTodo()}><Octicons name='plus' size={24} /></FAB>
     </Main>
-    // </SafeAreaView>
   );
 }

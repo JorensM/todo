@@ -18,13 +18,18 @@ const CheckboxLabel = styled.Text`
 `;
 
 type ExclusiveCheckboxProps = {
-    id?: string,
-    exclude?: string,
+    id?: string, // ID of checkbox
+    exclude?: string, // IDs of checkboxes to disable when this one is checked
     onChange?: (checked: boolean) => void,
-    label?: string,
+    label?: string, // Label to render alongside checkbox
     value?: boolean
 }
 
+/**
+ * A checkbox component that allows you to create 'exclusive' checkboxes
+ * that automatically disable themselves when another, incompatible ExclusiveCheckbox
+ * gets checked
+ */
 function ExclusiveCheckbox( {onChange, value, ...props}: ExclusiveCheckboxProps ) {
 
     const context = useContext(ExclusiveCheckboxContext);
