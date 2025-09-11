@@ -1,6 +1,5 @@
 // Core
 import Checkbox from 'expo-checkbox';
-import { View, Text } from 'react-native';
 import { createContext, PropsWithChildren, useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components/native';
 
@@ -38,7 +37,6 @@ function ExclusiveCheckbox( {onChange, value, ...props}: ExclusiveCheckboxProps 
 
     useEffect(() => {
         context.addChangeListener((exclude: string[]) => {
-            console.log("listener called:", exclude, props.id);
             if(exclude.includes(props.id)) {
                 if(props.onChange) {
                     props.onChange(false);

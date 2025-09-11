@@ -2,9 +2,9 @@
 import { Header } from '@react-navigation/elements';
 import Octicons from '@expo/vector-icons/Octicons';
 import styled from 'styled-components/native';
-import { Modal, TouchableOpacity, View, Text, NativeSyntheticEvent, TouchableWithoutFeedback } from 'react-native';
+import { Modal, TouchableOpacity, NativeSyntheticEvent, TouchableWithoutFeedback } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { useMemo, useState, useRef } from 'react';
+import { useMemo, useState } from 'react';
 
 // Components
 import FAB from '@/components/FAB';
@@ -65,7 +65,6 @@ export default function HomeScreen() {
 
   // Filter items by search and selected filters
   const filteredItems = useMemo(() => {
-    console.log(searchValue);
     let filteredItems = todos.items.filter((item) => item.name.toLowerCase().includes(searchValue.toLowerCase()));
     if(filterValue !== 'all') {
       filteredItems = filteredItems.filter(item => filterValue === 'completed' ? item.completed : !item.completed);
