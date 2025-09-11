@@ -134,7 +134,7 @@ export default function HomeScreen() {
         </Modal>
         <Header
           title='Todo List'
-          headerStyle={{height: 64, gap: 4}}
+          headerStyle={{padding: 16, gap: 4}}
           headerRightContainerStyle={{justifyContent: 'flex-start'}}
           headerRight={() => 
             <HeaderRightContainer>
