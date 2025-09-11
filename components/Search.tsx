@@ -6,6 +6,10 @@ const Search = styled.TextInput`
     height: 32px;
     font-size: 18px;
     padding-left: 8px;
+    max-width: 100%;
+    min-width: 0px;
+    align-self: stretch;
+    flex: 1;
 `;
 
 export default Search;

@@ -1,28 +1,42 @@
 import { useEffect, useRef, useState } from 'react';
-import { TextInput, TouchableOpacity } from 'react-native';
+import { TextInput } from 'react-native';
 import styled from 'styled-components/native';
+
+const TextPlainContainer = styled.TouchableOpacity`
+    min-width: 0px;
+    flex: 1;
+    align-self: stretch;
+    flex-direction: row;
+    align-items: center;
+`
 
 const TextPlain = styled.Text`
     color: white;
     font-size: 24px;
+    width: 100%;
 `;
 
 const TextEditing = styled.TextInput`
     background-color: lightgray;
     font-size: 24px;
     padding: 4px;
+    flex: 1;
+    align-self: stretch;
+    min-width: 0px;
 `
 
 type EditableTextProps = {
     text: string, // Text to display
     onChange: (newText: string) => void, // Called after text has been edited
-    autoUpdateText?: boolean // Whether to automatically update the plain text after editing or let the parent handle it
+    autoUpdateText?: boolean, // Whether to automatically update the plain text after editing or let the parent handle it
+    allowEmpty?: boolean,
+    ellipsis?: boolean
 }
 
 /** 
  * A text component that can be edited when tapped/clicked
  */
-export default function EditableText( { autoUpdateText = false, ...props }: EditableTextProps ) {
+export default function EditableText( { autoUpdateText = false, ellipsis = true, allowEmpty = false, ...props }: EditableTextProps ) {
 
     
     /**
@@ -41,6 +55,11 @@ export default function EditableText( { autoUpdateText = false, ...props }: Edit
     const [localText, setLocalText] = useState<string>(props.text);
 
     /**
+     * Text before confirming change
+     */
+    const [textBeforeEdit, setTextBeforeEdit] = useState<string>(props.text);
+
+    /**
      * Called when the text is pressed while not in edit mode
      */
     const handleTextPlainPress = () => {
@@ -52,6 +71,11 @@ export default function EditableText( { autoUpdateText = false, ...props }: Edit
      * Called after text is done being edited
      */
     const handleDoneEditing = () => {
+        if(!allowEmpty && localText === "") {
+            setLocalText(textBeforeEdit);
+            setIsEditing(false);
+            return;
+        }
         // Disable edit mode
         setIsEditing(false);
 
@@ -59,6 +83,7 @@ export default function EditableText( { autoUpdateText = false, ...props }: Edit
             // Call onChange with new text
             props.onChange(localText);
         }
+        setTextBeforeEdit(localText);
     }
 
     useEffect(() => {
@@ -79,12 +104,16 @@ export default function EditableText( { autoUpdateText = false, ...props }: Edit
             autoFocus={true}
             testID='edit'
         /> : ( // Otherwise display plain text
-        <TouchableOpacity
+        <TextPlainContainer
             onPress={handleTextPlainPress} // Enables edit mode
         >
-            <TextPlain>
-                {autoUpdateText ? localText : props.text}
-            </TextPlain>
-        </TouchableOpacity>
+                <TextPlain
+                    numberOfLines={1}
+                    // style={{overflow: ellipsis ? 'ellipsis' : undefined}}
+                    // ellpisisMode='tail'
+                >
+                    {autoUpdateText ? localText : props.text}
+                </TextPlain>
+        </TextPlainContainer>
     )
 }
